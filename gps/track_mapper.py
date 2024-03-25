@@ -6,9 +6,9 @@ from gps.graph.node import Node
 
 class TrackMapper:
     def define_nodes(self, initial_track_image):
-        return self.get_click_coordinates(initial_track_image)
+        return self.__get_click_coordinates(initial_track_image)
 
-    def get_click_coordinates(self, image_path):
+    def __get_click_coordinates(self, image_path):
         nodes_list = []
         image = cv2.imread(image_path)
         if image is None:
