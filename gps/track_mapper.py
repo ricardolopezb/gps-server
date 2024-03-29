@@ -31,8 +31,8 @@ class TrackMapper:
                 # Print the coordinates of the clicked point
                 print(f"Clicked at: ({x}, {y})")
                 # Increment the click counter
-                click_counter += 1
                 nodes_list.append(Node(click_counter, x, y))
+                click_counter += 1
 
         # Create a window and display the original image
         cv2.imshow("Image", image)
@@ -43,8 +43,21 @@ class TrackMapper:
         while True:
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q'):
+                self.add_edges(nodes_list)
+                cv2.destroyAllWindows()
                 break
 
-        # Close all OpenCV windows
-        cv2.destroyAllWindows()
+        print("Nodes defined successfully.")
+        # print node data for each node
+        for node in nodes_list:
+            print(node.id, node.x, node.y, node.neighbors)
         return nodes_list
+
+    def add_edges(self, nodes_list):
+        with open('edges.txt', 'r') as file:
+            for line in file:
+                line = line.strip()
+                from_node_id, to_node_id = line.split('->')
+                from_node_id = int(from_node_id.strip())
+                to_node_id = int(to_node_id.strip())
+                nodes_list[from_node_id - 1].neighbors.append(to_node_id)
