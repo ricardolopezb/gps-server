@@ -19,25 +19,20 @@ class TrackMapper:
 
         click_counter = 1
 
-        def mouse_callback(event, x, y, flags, param):
+        def mouse_callback(event, x, y):
             nonlocal image_with_points, click_counter, nodes_list
             if event == cv2.EVENT_LBUTTONDOWN:
-                # Draw a circle at the clicked point with number inside
                 cv2.circle(image_with_points, (x, y), 30, (0, 0, 255), 2)
                 cv2.putText(image_with_points, str(click_counter), (x - 5, y + 5),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-                # Display the image with the drawn point
+
                 cv2.imshow("Image", image_with_points)
-                # Print the coordinates of the clicked point
-                print(f"Clicked at: ({x}, {y})")
-                # Increment the click counter
+
                 nodes_list.append(Node(click_counter, x, y))
                 click_counter += 1
 
-        # Create a window and display the original image
         cv2.imshow("Image", image)
 
-        # Set the mouse callback function for the window
         cv2.setMouseCallback("Image", mouse_callback)
 
         while True:
@@ -47,13 +42,11 @@ class TrackMapper:
                 cv2.destroyAllWindows()
                 break
 
-        print("Nodes defined successfully.")
-        # print node data for each node
-        for node in nodes_list:
-            print(node.id, node.x, node.y, node.neighbors)
+        self.show_final_nodes_list(nodes_list)
         return nodes_list
 
-    def add_edges(self, nodes_list):
+    @staticmethod
+    def add_edges(nodes_list):
         with open('edges.txt', 'r') as file:
             for line in file:
                 line = line.strip()
@@ -61,3 +54,9 @@ class TrackMapper:
                 from_node_id = int(from_node_id.strip())
                 to_node_id = int(to_node_id.strip())
                 nodes_list[from_node_id - 1].neighbors.append(to_node_id)
+
+    @staticmethod
+    def show_final_nodes_list(nodes_list):
+        print("Nodes defined successfully.")
+        for node in nodes_list:
+            print(node.id, node.x, node.y, node.neighbors)
