@@ -1,16 +1,23 @@
 from flask import Flask
 
-from gps.track_mapper import TrackMapper
 from gps.track_mapping import TrackMapping
+from gps.xml_node_map_reader import XmlNodeMapReader
 
 # Create a Flask application
 app = Flask(__name__)
-track_mapping = TrackMapping(TrackMapper().define_nodes("images/image-1.png"))
+track_mapping = TrackMapping(XmlNodeMapReader.read("xml_node_map.xml"))
 
 # Define a route for the home page
 @app.route('/')
 def home():
-    return f"{track_mapping.get_current_car_node()}"
+    node = track_mapping.get_current_car_node()
+    jsonify_node = {
+        "id": node.id,
+        "x": node.x,
+        "y": node.y,
+        "neighbors": [neighbor.id for neighbor in node.neighbors]
+    }
+    return jsonify_node
 
 if __name__ == '__main__':
     # Run the Flask app

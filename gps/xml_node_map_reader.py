@@ -42,7 +42,7 @@ class XmlNodeMapReader:
 
         return list(nodes.values())
 
-xml_reader = XmlNodeMapReader()
-nodes = xml_reader.read('xml_node_map.xml')
-for node in nodes:
-    print(f"Node {node.id}: x={node.x}, y={node.y}, Neighbors: {[neighbor.id for neighbor in node.neighbors]}")
+if __name__ == '__main__':
+    nodes = XmlNodeMapReader.read("../xml_node_map.xml")
+    for node in nodes:
+        print(f"Node ID: {node.id}, X: {node.x}, Y: {node.y}, Neighbors: {[neighbor.id for neighbor in node.neighbors]}")

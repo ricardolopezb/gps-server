@@ -6,10 +6,10 @@ class CoordinatesProvider:
     def __init__(self):
         self.coordinates = []
         #self.camera = cv.VideoCapture(0). This should be the real camera caputre. For now it's gonna be just the picture
-        self.camera = cv2.imread("images/image-1.png")
+        # self.camera = cv2.imread("images/image-1.png")
 
     def get_car_coordinates(self):
-        x = self.find_circle_coordinates_with_gui(self.camera)
+        # x = self.find_circle_coordinates_with_gui(self.camera)
         return 20, 20
     
         # result = self.__find_circle_coordinates(self.camera)
