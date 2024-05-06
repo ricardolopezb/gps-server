@@ -3,39 +3,9 @@ from gps.graph.node import Node
 
 
 class XmlNodeMapReader:
-    def read(self):
-        tree = ET.parse('xml_node_map.xml')
-        root = tree.getroot()
-
-        # Define the namespace
-        namespace = {'graphml': 'http://graphml.graphdrawing.org/xmlns'}
-
-        # Extract nodes
+    @staticmethod
+    def read(file_path):
         nodes = {}
-        for node_elem in root.findall('.//graphml:node', namespace):
-            node_id = node_elem.attrib['id']
-            x = float(node_elem.find('./graphml:data[@key="d0"]', namespace).text)
-            y = float(node_elem.find('./graphml:data[@key="d1"]', namespace).text)
-            nodes[node_id] = Node(node_id, x, y)
-
-        # Extract edges
-        for edge_elem in root.findall('.//graphml:edge', namespace):
-            source_id = edge_elem.attrib['source']
-            target_id = edge_elem.attrib['target']
-            nodes[source_id].add_neighbor(nodes[target_id])
-
-        # Add default edges for consecutive nodes
-        node_ids = list(nodes.keys())
-        for i in range(len(node_ids) - 1):
-            source_id = node_ids[i]
-            target_id = node_ids[i + 1]
-            if target_id not in nodes[source_id].neighbors:
-                nodes[source_id].add_neighbor(nodes[target_id])
-        return nodes
-
-    def parse_graphml(self, file_path):
-        nodes = {}
-
         # Parse the XML file
         tree = ET.parse(file_path)
         root = tree.getroot()
@@ -73,7 +43,6 @@ class XmlNodeMapReader:
         return list(nodes.values())
 
 xml_reader = XmlNodeMapReader()
-#nodes = xml_reader.read()
-nodes = xml_reader.parse_graphml('xml_node_map.xml')
+nodes = xml_reader.read('xml_node_map.xml')
 for node in nodes:
     print(f"Node {node.id}: x={node.x}, y={node.y}, Neighbors: {[neighbor.id for neighbor in node.neighbors]}")
