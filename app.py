@@ -1,11 +1,11 @@
 from flask import Flask
 
-from gps.track_mapping import TrackMapping
-from gps.xml_node_map_reader import XmlNodeMapReader
+from trackmap.track_map import TrackMap
+from trackmap.xml_node_map_reader import XmlNodeMapReader
 
 # Create a Flask application
 app = Flask(__name__)
-track_mapping = TrackMapping(XmlNodeMapReader.read("xml_node_map.xml"))
+track_mapping = TrackMap(XmlNodeMapReader.read("xml_node_map.xml"))
 
 # Define a route for the home page
 @app.route('/')

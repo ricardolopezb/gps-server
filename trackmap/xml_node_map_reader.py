@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from gps.graph.node import Node
+from trackmap.graph.node import Node
 
 
 class XmlNodeMapReader:
@@ -40,9 +40,10 @@ class XmlNodeMapReader:
                 target_node = nodes[target_id]
                 source_node.add_neighbor(target_node)
 
-        return list(nodes.values())
+        return nodes
 
 if __name__ == '__main__':
     nodes = XmlNodeMapReader.read("../xml_node_map.xml")
-    for node in nodes:
-        print(f"Node ID: {node.id}, X: {node.x}, Y: {node.y}, Neighbors: {[neighbor.id for neighbor in node.neighbors]}")
+    for id, node in nodes.items():
+        print(f'Node {id} - X: {node.x}, Y: {node.y}')
+
