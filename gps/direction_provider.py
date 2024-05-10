@@ -52,21 +52,19 @@ class DirectionProvider:
 
     def _calculate_steering_angle(self, correction_vector, correction_angle):
         print("Vector: ", correction_vector)
-        print("Length: ", correction_angle)
+        print("Angle: ", correction_angle)
+        steering_angle = 0
 
         if correction_angle == 0:
-            return 0
+            return steering_angle
         if -30 <= correction_angle <= 30:
-            return 0
+            return steering_angle
 
-        steering_angle = 0
         if -50 <= correction_angle < 50:
             steering_angle = 12
         if -90 <= correction_angle <= 90:
             steering_angle = 22
-
-        # Determine the direction of the turn based on the y-component of the correction vector
-        if correction_angle< 0:
+        if correction_angle < 0:
             steering_angle = -steering_angle  # Turn left
 
         return steering_angle
