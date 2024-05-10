@@ -11,7 +11,7 @@ class TrackMap:
         self.kd_tree = KDTree([(node.x, node.y) for node in nodes.values()])
         self.coordinates_provider = CoordinatesProvider()
 
-    def get_node(self, node_id):
+    def get_node_by_id(self, node_id):
         return self.nodes[node_id]
 
     def get_closest_node(self, x, y):
