@@ -11,13 +11,14 @@ class DirectionProvider:
         print(f"GOING FROM Node-{start_node.id} TO Node-{target_node.id}")
 
         # Maybe change the method params for the coordinates directly
-        self.path = self.map.get_shortest_path(start_node.id, target_node.id)
+        path = self.map.get_shortest_path(start_node.id, target_node.id)
+        self.path = path
 
     def get_direction(self, current_position, is_blind=False):
         current_node = self.map.get_closest_node(*current_position)
         if not current_node.is_critical and not is_blind:
             self.previous_node = current_node
-            return None
+            return {'status': 'unmodified', 'steer': 0}
         current_node_index = self.path.index(current_node)
         if current_node_index + 1 == len(self.path):
             return {'status': 'reached destination', 'steer': 0}
@@ -43,6 +44,7 @@ class DirectionProvider:
     def _calculate_steering_angle(self, correction_vector, correction_vector_length):
         print("Vector: ", correction_vector)
         print("Length: ", correction_vector_length)
+        return 0
         # if correction_vector_length == 0:
         #     return 0
         # if correction_vector_length < 0.1:

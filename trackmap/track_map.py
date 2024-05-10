@@ -28,13 +28,13 @@ class TrackMap:
 
         while queue:
             node_id, path = queue.popleft()
-            node = next(filter(lambda node: node.id == node_id, self.nodes), None)
+            node = self.nodes.get(node_id)
             if node_id == target_id:
                 return path
             if node_id not in visited:
                 visited.add(node_id)
-                for neighbor_id in node.neighbors:
-                    queue.append((neighbor_id, path + [neighbor_id]))
+                for neighbor in node.neighbors:
+                    queue.append((neighbor.id, path + [neighbor.id]))
 
         # If no path found
         return None
